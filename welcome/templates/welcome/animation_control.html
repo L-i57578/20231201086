@@ -1,0 +1,298 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <title>Animation Control</title>
+    <style>
+        @keyframes move { 
+            0% { 
+                left: 0%; 
+            } 
+            50% { 
+                left: 50%; 
+            } 
+            100% { 
+                left: 0%; 
+            } 
+        } 
+
+        h1 { 
+            position: relative; 
+            animation-name: move; 
+            animation-duration: 4s; 
+            animation-iteration-count: infinite; 
+            animation-timing-function: ease-in-out;
+            text-align: center;
+            margin-top: 100px;
+            color: #764ba2;
+            font-family: Arial, sans-serif;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 150px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .position-indicator {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .position-marker {
+            position: absolute;
+            top: -10px;
+            width: 20px;
+            height: 20px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .marker-0 {
+            left: 0%;
+        }
+        
+        .marker-50 {
+            left: 50%;
+        }
+        
+        .marker-label {
+            position: absolute;
+            top: 25px;
+            color: white;
+            font-size: 12px;
+            transform: translateX(-50%);
+        }
+        
+        .control-panel {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .control-button {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-button:hover {
+            background: #5a3d80;
+            transform: translateY(-2px);
+        }
+        
+        .control-button:active {
+            transform: translateY(0);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-paused {
+            background: #ff6b6b;
+        }
+        
+        .status-running {
+            background: #4ecdc4;
+        }
+        
+        .status-text {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 位置指示器 -->
+        <div class="position-indicator">
+            <div class="position-marker marker-0"></div>
+            <div class="marker-label" style="left: 0%;">0%</div>
+            
+            <div class="position-marker marker-50"></div>
+            <div class="marker-label" style="left: 50%;">50%</div>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <button class="control-button" id="toggleButton">
+                <span class="status-indicator status-paused" id="statusIndicator"></span>
+                播放/暂停动画
+            </button>
+            <span class="status-text" id="statusText">动画已暂停</span>
+        </div>
+        
+        <h1 id="animatedText">Welcome!</h1>
+        
+        <div class="info">
+            <h2>JavaScript动画控制功能演示</h2>
+            <p>这个页面展示了如何使用JavaScript控制CSS动画的播放和暂停。</p>
+            
+            <h3>CSS动画定义代码：</h3>
+            <div class="code-block">
+@keyframes move {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left: 0%;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;50% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left: 50%;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;100% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left: 0%;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+            
+            <h3>JavaScript动画控制代码：</h3>
+            <div class="code-block">
+document.addEventListener('DOMContentLoaded', function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Find heading<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const h1 = document.querySelector('h1');<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Pause Animation by default<br>
+&nbsp;&nbsp;&nbsp;&nbsp;h1.style.animationPlayState = 'paused';<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Wait for button to be clicked<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.querySelector('button').onclick = () => {<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If animation is currently paused, begin playing it<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (h1.style.animationPlayState == 'paused') {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h1.style.animationPlayState = 'running';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Otherwise, pause the animation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h1.style.animationPlayState = 'paused';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+})
+            </div>
+            
+            <h3>JavaScript代码说明：</h3>
+            <ul>
+                <li><strong>DOMContentLoaded事件</strong> - 确保页面完全加载后再执行JavaScript代码</li>
+                <li><strong>document.querySelector('h1')</strong> - 获取页面中的h1元素</li>
+                <li><strong>animationPlayState属性</strong> - 控制CSS动画的播放状态（'running'或'paused'）</li>
+                <li><strong>onclick事件处理</strong> - 当按钮被点击时切换动画状态</li>
+                <li><strong>条件判断</strong> - 根据当前动画状态决定是播放还是暂停</li>
+            </ul>
+            
+            <h3>功能特点：</h3>
+            <ul>
+                <li>页面加载时动画默认暂停</li>
+                <li>点击按钮可以切换动画的播放/暂停状态</li>
+                <li>按钮有视觉反馈（状态指示器和文字提示）</li>
+                <li>动画状态实时显示</li>
+                <li>支持无限循环动画的控制</li>
+            </ul>
+            
+            <a href="/" class="back-link">← 返回首页</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() { 
+            // Find heading
+            const h1 = document.querySelector('#animatedText'); 
+            const toggleButton = document.querySelector('#toggleButton');
+            const statusIndicator = document.querySelector('#statusIndicator');
+            const statusText = document.querySelector('#statusText');
+
+            // Pause Animation by default
+            h1.style.animationPlayState = 'paused'; 
+
+            // Update status display
+            function updateStatus() {
+                if (h1.style.animationPlayState === 'paused') {
+                    statusIndicator.className = 'status-indicator status-paused';
+                    statusText.textContent = '动画已暂停';
+                } else {
+                    statusIndicator.className = 'status-indicator status-running';
+                    statusText.textContent = '动画播放中';
+                }
+            }
+
+            // Initial status update
+            updateStatus();
+
+            // Wait for button to be clicked
+            toggleButton.onclick = () => { 
+                // If animation is currently paused, begin playing it
+                if (h1.style.animationPlayState === 'paused') { 
+                    h1.style.animationPlayState = 'running'; 
+                } 
+                // Otherwise, pause the animation
+                else { 
+                    h1.style.animationPlayState = 'paused'; 
+                }
+                
+                // Update status display
+                updateStatus();
+            } 
+        });
+
+        // 页面加载完成后显示控制说明
+        console.log('JavaScript动画控制功能已加载');
+        console.log('功能：通过按钮控制CSS动画的播放和暂停');
+    </script>
+</body>
+</html>

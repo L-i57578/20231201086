@@ -1,20 +1,92 @@
 {% extends 'welcome/base.html' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Welcome My World APP - 功能导航{% endblock %}
 
 {% block content %}
 <div class="welcome-card">
-    <h1>{{ title }}</h1>
-    <p>{{ message }}</p>
+    <h1>Welcome My World APP</h1>
+    <p>一个功能丰富的Django应用，包含多种交互功能和演示</p>
     
     <div class="features">
-        {% for feature in features %}
         <div class="feature-item">
-            <h3>{{ feature }}</h3>
+            <h3>数学练习游戏</h3>
+            <p>有趣的加法练习，答对10题即可获胜</p>
+            <a href="/math-practice/" class="btn" style="margin-top: 10px;">开始练习</a>
         </div>
-        {% endfor %}
+        
+        <div class="feature-item">
+            <h3>React演示</h3>
+            <p>现代前端框架React的集成演示</p>
+            <a href="/react-demo/" class="btn" style="margin-top: 10px;">查看演示</a>
+        </div>
+        
+        <div class="feature-item">
+            <h3>计数器组件</h3>
+            <p>React状态管理的计数器示例</p>
+            <a href="/counter-demo/" class="btn" style="margin-top: 10px;">体验计数</a>
+        </div>
+        
+        <div class="feature-item">
+            <h3>Hello组件</h3>
+            <p>React基础组件交互演示</p>
+            <a href="/hello-component/" class="btn" style="margin-top: 10px;">打招呼</a>
+        </div>
+        
+        <div class="feature-item">
+            <h3>CSS动画</h3>
+            <p>丰富的CSS动画效果展示</p>
+            <a href="/animations/" class="btn" style="margin-top: 10px;">观看动画</a>
+        </div>
+        
+        <div class="feature-item">
+            <h3>动态帖子</h3>
+            <p>异步加载的动态内容管理</p>
+            <a href="/dynamic-posts/" class="btn" style="margin-top: 10px;">浏览帖子</a>
+        </div>
     </div>
     
-    <a href="/about/" class="btn">了解更多</a>
+    <div style="margin-top: 2rem;">
+        <h2>数学练习游戏特色</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                <h4>🎯 目标导向</h4>
+                <p>答对10题即可获胜</p>
+            </div>
+            <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                <h4>⚡ 实时反馈</h4>
+                <p>即时验证答案正确性</p>
+            </div>
+            <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <h4>🎨 精美界面</h4>
+                <p>现代化UI设计</p>
+            </div>
+            <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; border-left: 4px solid #dc3545;">
+                <h4>🏆 胜利庆祝</h4>
+                <p>达成目标后的特别展示</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="/math-practice/" class="btn" style="font-size: 1.2rem; padding: 15px 40px;">🚀 立即开始数学练习</a>
+    </div>
+    
+    <div style="margin-top: 3rem; padding: 1.5rem; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #764ba2;">
+        <h3 style="color: #764ba2; margin-bottom: 1rem;">项目作者信息</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+            <div style="text-align: center;">
+                <h4 style="color: #333; margin-bottom: 0.5rem;">👤 姓名</h4>
+                <p style="font-size: 1.1rem; font-weight: bold; color: #764ba2;">李辅丽</p>
+            </div>
+            <div style="text-align: center;">
+                <h4 style="color: #333; margin-bottom: 0.5rem;">🎓 学号</h4>
+                <p style="font-size: 1.1rem; font-weight: bold; color: #764ba2;">20231201086</p>
+            </div>
+            <div style="text-align: center;">
+                <h4 style="color: #333; margin-bottom: 0.5rem;">🏫 班级</h4>
+                <p style="font-size: 1.1rem; font-weight: bold; color: #764ba2;">医学信息工程2023</p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

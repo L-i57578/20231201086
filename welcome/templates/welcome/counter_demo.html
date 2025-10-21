@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Counter Demo</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #app {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .counter-container {
+            width: 100%;
+        }
+        
+        .counter-container.dark {
+            background: #2d3748;
+            color: white;
+        }
+        
+        .counter-container.dark .counter-display {
+            color: white;
+        }
+        
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .theme-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .counter-display {
+            font-size: 4em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .step-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .step-controls label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .step-input {
+            padding: 8px 12px;
+            border: 2px solid #764ba2;
+            border-radius: 6px;
+            font-size: 1em;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .counter-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .counter-button {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 80px;
+        }
+        
+        .counter-button:hover {
+            background: #5a3d7a;
+            transform: translateY(-2px);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .action-button {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .action-button:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+        }
+        
+        .history-section {
+            margin: 30px 0;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .counter-container.dark .history-section {
+            background: #4a5568;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-header h3 {
+            margin: 0;
+            color: #2d3748;
+        }
+        
+        .counter-container.dark .history-header h3 {
+            color: white;
+        }
+        
+        .clear-button {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        
+        .clear-button:hover {
+            background: #c53030;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .counter-container.dark .history-item {
+            background: #2d3748;
+            color: white;
+        }
+        
+        .history-item.increment {
+            border-left-color: #48bb78;
+        }
+        
+        .history-item.decrement {
+            border-left-color: #e53e3e;
+        }
+        
+        .history-item.reset {
+            border-left-color: #ed8936;
+        }
+        
+        .history-item.set {
+            border-left-color: #667eea;
+        }
+        
+        .timestamp {
+            font-size: 0.8em;
+            color: #718096;
+        }
+        
+        .counter-container.dark .timestamp {
+            color: #a0aec0;
+        }
+        
+        .action {
+            font-weight: bold;
+        }
+        
+        .result {
+            font-weight: bold;
+            color: #764ba2;
+        }
+        
+        .counter-container.dark .result {
+            color: #667eea;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .counter-container.dark .stat-item {
+            background: #4a5568;
+        }
+        
+        .stat-label {
+            display: block;
+            font-size: 0.9em;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+        
+        .counter-container.dark .stat-label {
+            color: #a0aec0;
+        }
+        
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .counter-container.dark .stat-value {
+            color: white;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .code-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        function Counter() {
+            const [count, setCount] = React.useState(0);
+            const [step, setStep] = React.useState(1);
+            const [history, setHistory] = React.useState([]);
+            const [theme, setTheme] = React.useState('light');
+            
+            const increment = () => {
+                const newCount = count + step;
+                setCount(newCount);
+                setHistory([...history, {type: 'increment', value: step, count: newCount, timestamp: new Date().toLocaleTimeString()}]);
+            };
+            
+            const decrement = () => {
+                const newCount = count - step;
+                setCount(newCount);
+                setHistory([...history, {type: 'decrement', value: step, count: newCount, timestamp: new Date().toLocaleTimeString()}]);
+            };
+            
+            const reset = () => {
+                setCount(0);
+                setHistory([...history, {type: 'reset', value: 0, count: 0, timestamp: new Date().toLocaleTimeString()}]);
+            };
+            
+            const setCustomValue = (value) => {
+                setCount(value);
+                setHistory([...history, {type: 'set', value: value, count: value, timestamp: new Date().toLocaleTimeString()}]);
+            };
+            
+            const clearHistory = () => {
+                setHistory([]);
+            };
+            
+            const toggleTheme = () => {
+                setTheme(theme === 'light' ? 'dark' : 'light');
+            };
+            
+            return (
+                <div className={`counter-container ${theme}`}>
+                    <div className="header-section">
+                        <h1>高级计数器</h1>
+                        <button className="theme-toggle" onClick={toggleTheme}>
+                            {theme === 'light' ? '🌙 暗色模式' : '☀️ 亮色模式'}
+                        </button>
+                    </div>
+                    
+                    <div className="counter-display">{count}</div>
+                    
+                    <div className="step-controls">
+                        <label>步长设置：</label>
+                        <input 
+                            type="number" 
+                            value={step} 
+                            onChange={(e) => setStep(parseInt(e.target.value) || 1)}
+                            min="1"
+                            max="100"
+                            className="step-input"
+                        />
+                    </div>
+                    
+                    <div className="counter-buttons">
+                        <button className="counter-button" onClick={decrement}>-{step}</button>
+                        <button className="counter-button" onClick={reset}>重置</button>
+                        <button className="counter-button" onClick={increment}>+{step}</button>
+                    </div>
+                    
+                    <div className="quick-actions">
+                        <button className="action-button" onClick={() => setCustomValue(0)}>设为0</button>
+                        <button className="action-button" onClick={() => setCustomValue(100)}>设为100</button>
+                        <button className="action-button" onClick={() => setCustomValue(-100)}>设为-100</button>
+                    </div>
+                    
+                    <div className="history-section">
+                        <div className="history-header">
+                            <h3>操作历史 ({history.length})</h3>
+                            <button className="clear-button" onClick={clearHistory}>清空历史</button>
+                        </div>
+                        <div className="history-list">
+                            {history.slice(-5).reverse().map((item, index) => (
+                                <div key={index} className={`history-item ${item.type}`}>
+                                    <span className="timestamp">{item.timestamp}</span>
+                                    <span className="action">
+                                        {item.type === 'increment' ? `+${item.value}` : 
+                                         item.type === 'decrement' ? `-${item.value}` : 
+                                         item.type === 'reset' ? '重置' : `设为${item.value}`}
+                                    </span>
+                                    <span className="result">→ {item.count}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="stats-section">
+                        <div className="stat-item">
+                            <span className="stat-label">最大值：</span>
+                            <span className="stat-value">{Math.max(...history.map(h => h.count), count)}</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-label">最小值：</span>
+                            <span className="stat-value">{Math.min(...history.map(h => h.count), count)}</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-label">操作次数：</span>
+                            <span className="stat-value">{history.length}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/" className="back-link">← 返回首页</a>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Counter />, document.querySelector("#app"));
+    </script>
+</body>
+</html>

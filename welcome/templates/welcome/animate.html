@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <title>Animate</title>
+    <style>
+        @keyframes grow { 
+            from { 
+                font-size: 20px; 
+            } 
+            to { 
+                font-size: 100px; 
+            } 
+        } 
+
+        h1 { 
+            animation-name: grow; 
+            animation-duration: 2s; 
+            animation-fill-mode: forwards; 
+            text-align: center;
+            margin-top: 100px;
+            color: #764ba2;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome!</h1>
+        
+        <div class="info">
+            <h2>CSS动画演示</h2>
+            <p>这个页面展示了CSS @keyframes动画的基本用法。</p>
+            
+            <h3>动画定义代码：</h3>
+            <div class="code-block">
+@keyframes grow {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 20px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;to {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 100px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+            
+            <h3>动画应用代码：</h3>
+            <div class="code-block">
+h1 {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;animation-name: grow;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;animation-duration: 2s;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;animation-fill-mode: forwards;<br>
+}
+            </div>
+            
+            <h3>动画属性说明：</h3>
+            <ul>
+                <li><strong>animation-name:</strong> 指定要使用的@keyframes动画名称</li>
+                <li><strong>animation-duration:</strong> 设置动画持续时间为2秒</li>
+                <li><strong>animation-fill-mode: forwards</strong> 动画结束后保持最后一帧的状态</li>
+            </ul>
+            
+            <a href="/" class="back-link">← 返回首页</a>
+        </div>
+    </div>
+</body>
+</html>

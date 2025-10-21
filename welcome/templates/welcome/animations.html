@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS动画演示 - 我的应用</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'welcome/animations.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .animation-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .animation-section h2 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-box {
+            width: 80px;
+            height: 80px;
+            background: #764ba2;
+            margin: 0 auto 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #667eea;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CSS动画演示</h1>
+            <p>点击下面的演示框来查看不同的CSS动画效果</p>
+        </div>
+        
+        <div class="animation-section">
+            <h2>基础动画效果</h2>
+            <div class="demo-grid">
+                <div class="demo-item" onclick="animateBox(this, 'fadeIn')">
+                    <div class="demo-box">淡入</div>
+                    <p>淡入动画</p>
+                </div>
+                <div class="demo-item" onclick="animateBox(this, 'scaleUp')">
+                    <div class="demo-box">缩放</div>
+                    <p>缩放动画</p>
+                </div>
+                <div class="demo-item" onclick="animateBox(this, 'slideInLeft')">
+                    <div class="demo-box">左滑</div>
+                    <p>左侧滑入</p>
+                </div>
+                <div class="demo-item" onclick="animateBox(this, 'slideInRight')">
+                    <div class="demo-box">右滑</div>
+                    <p>右侧滑入</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="animation-section">
+            <h2>循环动画效果</h2>
+            <div class="demo-grid">
+                <div class="demo-item" onclick="toggleAnimation(this, 'rotate')">
+                    <div class="demo-box">旋转</div>
+                    <p>旋转动画</p>
+                </div>
+                <div class="demo-item" onclick="toggleAnimation(this, 'pulse')">
+                    <div class="demo-box">脉动</div>
+                    <p>脉动动画</p>
+                </div>
+                <div class="demo-item" onclick="toggleAnimation(this, 'slideLeftRight')">
+                    <div class="demo-box">左右</div>
+                    <p>左右来回滑动</p>
+                </div>
+                <div class="demo-item" onclick="toggleAnimation(this, 'slideHorizontal')">
+                    <div class="demo-box">往返</div>
+                    <p>水平往返滑动</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="animation-section">
+            <h2>CSS动画代码示例</h2>
+            <div class="code-block">
+/* 淡入动画定义 */<br>
+@keyframes fadeIn {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: translateY(20px);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;to {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: translateY(0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br><br>
+/* 缩放动画定义 */<br>
+@keyframes scaleUp {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;0% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: scale(0.5);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;75% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 0.8;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: scale(1.1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;100% {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacity: 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform: scale(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+            </div>
+        </div>
+        
+        <a href="/" class="back-link">← 返回首页</a>
+    </div>
+
+    <script>
+        function animateBox(element, animationType) {
+            const box = element.querySelector('.demo-box');
+            
+            // 移除所有动画类
+            box.classList.remove('animate-fadeIn', 'animate-scaleUp', 'animate-slideInLeft', 'animate-slideInRight', 'animate-rotate', 'animate-pulse');
+            
+            // 强制重排以重新触发动画
+            void box.offsetWidth;
+            
+            // 添加新的动画类
+            box.classList.add(`animate-${animationType}`);
+        }
+        
+        function toggleAnimation(element, animationType) {
+            const box = element.querySelector('.demo-box');
+            
+            if (box.classList.contains(`animate-${animationType}`)) {
+                box.classList.remove(`animate-${animationType}`);
+            } else {
+                // 移除所有动画类
+                box.classList.remove('animate-rotate', 'animate-pulse', 'animate-slideLeftRight', 'animate-slideHorizontal', 'animate-fadeIn', 'animate-scaleUp', 'animate-slideInLeft', 'animate-slideInRight');
+                // 强制重排
+                void box.offsetWidth;
+                // 添加新的动画类
+                box.classList.add(`animate-${animationType}`);
+            }
+        }
+        
+        // 页面加载时自动播放一些动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const demoItems = document.querySelectorAll('.demo-item');
+            demoItems.forEach((item, index) => {
+                setTimeout(() => {
+                    const box = item.querySelector('.demo-box');
+                    box.classList.add('animate-fadeIn');
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

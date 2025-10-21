@@ -12,6 +12,17 @@ function showPage(page) {
     if (targetPage) {
         targetPage.style.display = 'block'; 
         targetPage.classList.add('active');
+        
+        // 添加页面切换动画
+        targetPage.classList.add('animate-fadeIn');
+        
+        // 为特性卡片添加延迟动画
+        const featureItems = targetPage.querySelectorAll('.feature-item');
+        featureItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('animate-scaleUp');
+            }, index * 200); // 每个卡片延迟200ms
+        });
     }
 
     // Update button active states

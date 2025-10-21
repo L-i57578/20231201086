@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>数学练习</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #app {
+            text-align: center;
+            font-family: sans-serif;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        #problem {
+            font-size: 72px;
+        }
+        
+        #winner {
+            font-size: 72px;
+            color: green;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .back-btn:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .math-problem {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .input-field {
+            font-size: 1.5em;
+            padding: 10px;
+            border: 2px solid #764ba2;
+            border-radius: 8px;
+            margin: 20px 0;
+            width: 200px;
+            text-align: center;
+        }
+        
+        .submit-button {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 10px;
+        }
+        
+        .submit-button:hover {
+            background: #5a3d7a;
+        }
+        
+        .score-display {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .message {
+            font-size: 1.2em;
+            margin: 10px 0;
+            min-height: 30px;
+        }
+        
+        .correct {
+            color: #28a745;
+        }
+        
+        .incorrect {
+            color: #dc3545;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .code-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        function MathPractice() {
+            const [state, setState] = React.useState({ 
+                num1: 1, 
+                num2: 1, 
+                response: "", 
+                score: 0 
+            });
+            
+            function updateResponse(event) { 
+                setState({ 
+                    ...state, 
+                    response: event.target.value 
+                }); 
+            }
+            
+            const checkAnswer = () => {
+                const correctAnswer = state.num1 + state.num2;
+                const userAnswer = parseInt(state.response);
+                
+                if (userAnswer === correctAnswer) {
+                    setState({
+                        num1: Math.floor(Math.random() * 10) + 1,
+                        num2: Math.floor(Math.random() * 10) + 1,
+                        response: "",
+                        score: state.score + 1
+                    });
+                } else {
+                    setState({
+                        ...state,
+                        response: ""
+                    });
+                }
+            };
+            
+            function inputKeyPress(event) { 
+                if (event.key === "Enter") { 
+                    const answer = parseInt(state.response); 
+                    if (answer === state.num1 + state.num2) { 
+                        // User got question right 
+                        setState({ 
+                            ...state, 
+                            score: state.score + 1, 
+                            response: "", 
+                            num1: Math.ceil(Math.random() * 10), 
+                            num2: Math.ceil(Math.random() * 10) 
+                        }); 
+                    } else { 
+                        // User got question wrong 
+                        setState({ 
+                            ...state, 
+                            score: state.score - 1, 
+                            response: "" 
+                        }) 
+                    } 
+                } 
+            }
+            
+            if (state.score === 10) { 
+                return ( 
+                    <div>
+                        <div id="winner">You won!</div>
+                        <a href="/" class="back-btn">返回首页</a>
+                    </div>
+                ); 
+            }
+            
+            return ( 
+                <div> 
+                    <div id="problem">{state.num1} + {state.num2}</div> 
+                    <input value={state.response} onChange={updateResponse} onKeyPress={inputKeyPress} /> 
+                    <div>Score: {state.score}</div> 
+                </div> 
+            );
+        }
+
+        ReactDOM.render(<MathPractice />, document.querySelector("#app"));
+    </script>
+</body>
+</html>

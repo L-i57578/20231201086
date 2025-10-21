@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Hello Component</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #app {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .hello-text {
+            color: #333;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .hello-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        function Hello(props) { 
+            return ( 
+                <h1 className="hello-text">Hello, {props.name}!</h1> 
+            ); 
+        }
+
+        function App() { 
+            return ( 
+                <div className="hello-container"> 
+                    <Hello name="Harry" /> 
+                    <Hello name="Ron" /> 
+                    <Hello name="Hermione" /> 
+                    <a href="/" className="back-link">← 返回首页</a>
+                </div> 
+            ); 
+        }
+
+        ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+</body>
+</html>
