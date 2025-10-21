@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单页面应用 - 我的应用</title>
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: #f8f9fa;
+            border: 2px solid #764ba2;
+            color: #764ba2;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        
+        .nav-btn:hover {
+            background: #764ba2;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .page-content {
+            min-height: 300px;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .page {
+            display: none;
+            opacity: 0;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .page h2 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .page p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-item h3 {
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .keyboard-hint {
+            text-align: center;
+            margin-top: 2rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .container {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>单页面应用演示</h1>
+            <p>点击下方按钮在不同页面间切换，无需刷新整个页面</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" data-page="page1">页面 1</button>
+            <button class="nav-btn" data-page="page2">页面 2</button>
+            <button class="nav-btn" data-page="page3">页面 3</button>
+        </div>
+        
+        <div class="page-content">
+            <div id="page1" class="page active">
+                <h2>欢迎来到页面 1</h2>
+                <p>这是单页面应用的第一个页面。你可以使用按钮或键盘快捷键(1,2,3)在不同页面间切换。</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>响应式设计</h3>
+                        <p>适配各种屏幕尺寸，从手机到桌面设备都能完美显示。</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>平滑动画</h3>
+                        <p>页面切换时有流畅的淡入淡出效果，提升用户体验。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page2" class="page">
+                <h2>页面 2 - 技术特性</h2>
+                <p>这个页面展示了单页面应用的核心技术特性。</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>JavaScript驱动</h3>
+                        <p>使用原生JavaScript实现页面切换功能，无需额外框架。</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>无刷新切换</h3>
+                        <p>页面切换时不会重新加载，提供更快的用户体验。</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>键盘导航</h3>
+                        <p>支持键盘快捷键，提升可访问性和用户体验。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page3" class="page">
+                <h2>页面 3 - 关于我们</h2>
+                <p>感谢使用我们的单页面应用演示。</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>现代化设计</h3>
+                        <p>采用现代化的UI设计，包括渐变背景和卡片式布局。</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Django集成</h3>
+                        <p>完美集成到Django框架中，可以作为模板重复使用。</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>开源代码</h3>
+                        <p>所有代码都是开源的，可以根据需要进行修改和扩展。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="keyboard-hint">
+            💡 提示：按键盘上的 1、2、3 键可以快速切换页面
+        </div>
+    </div>
+
+    <script src="{% static 'welcome/singlepage.js' %}"></script>
+</body>
+</html>

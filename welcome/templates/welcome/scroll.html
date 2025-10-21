@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+ <html lang="en"> 
+ <head> 
+     <meta charset="UTF-8"> 
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+     <title>Scroll</title> 
+     <style> 
+         body { 
+             transition: background 0.3s; 
+         } 
+     </style> 
+     <script> 
+         // Function to generate paragraphs 
+         function generateContent() { 
+             const container = document.createElement('div'); 
+             for (let i = 1; i <= 200; i++) { 
+                 const p = document.createElement('p'); 
+                 p.textContent = i; // Set paragraph text to the current number 
+                 container.appendChild(p); 
+             } 
+             document.body.appendChild(container); 
+         } 
+
+         // Event listener for scrolling 
+         window.onscroll = () => { 
+             // Check if we're at the bottom 
+             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1) { 
+                 // Change color to green 
+                 document.querySelector('body').style.background = 'green'; 
+             } else { 
+                 // Change color to white 
+                 document.querySelector('body').style.background = 'white'; 
+             } 
+         }; 
+
+         // Generate content when the window loads 
+         window.onload = generateContent; 
+     </script> 
+ </head> 
+ <body> 
+ </body> 
+ </html>

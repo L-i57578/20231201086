@@ -1,0 +1,20 @@
+{% extends 'welcome/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="welcome-card">
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+    
+    <div class="features">
+        {% for feature in features %}
+        <div class="feature-item">
+            <h3>{{ feature }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <a href="/about/" class="btn">了解更多</a>
+</div>
+{% endblock %}
